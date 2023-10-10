@@ -1,0 +1,25 @@
+#Script Automation for Changing Passwords for Expired Accounts
+
+#!/bin/bash
+
+# Prompt for the username
+read -p "Enter the username: " username
+
+# Generate a random password
+password=$(openssl rand -base64 12 | tr -dc 'a-zA-Z0-9' | head -c 16)
+
+# Set the new password for the user
+echo -e "$password\n$password" | sudo passwd $username --stdin
+
+        if [ `echo $?` -ne 0 ];
+        then
+                echo  "Cannot find the username... Please try again."
+                exit -1
+        fi
+
+# Display the new password
+echo " "
+echo "[SERVER-NAME]"
+echo "Username: $username"
+echo "Password: $password"
+echo " "
